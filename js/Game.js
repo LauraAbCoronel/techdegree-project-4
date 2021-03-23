@@ -10,7 +10,7 @@ class Game {
                         new Phrase('Like Father Like Son'),
                         new Phrase('Back to the Drawing Board'),
                         new Phrase('Do you remember purple ketchup'),
-                        new Phrase('Humpty Humpty sat on a wall')];
+                        new Phrase('Humpty Dumpty sat on a wall')];
         this.activePhrase = null;
     }
 

@@ -25,13 +25,17 @@ class Phrase {
         });
     }
 
-    // checkLetter(letter) {
-    //     if (condition) {
-            
-    //     } else {
-            
-    //     }
-    // }
+    /**
+     * Searches for a character in the phrase
+     * @param {string} letter - character to search for in the string
+     * @returns {boolean} - true if the character is in the string, false if not
+     */
+    checkLetter(letter) {
+      return this.phrase.includes(letter);
+    }
 
-    showMatchedLetter() {}
+    showMatchedLetter(letter) {
+        const matchLetter = document.querySelectorAll(`.${letter}`);
+        matchLetter.forEach(letter => letter.classList.replace('hide','show'));
+    }
 }
