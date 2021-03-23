@@ -34,6 +34,10 @@ class Phrase {
       return this.phrase.includes(letter);
     }
 
+    /**
+     * Changes the class of matched letter to show and removes hide class to display on screen
+     * @param {*} letter - character to unhide in the phrase
+     */
     showMatchedLetter(letter) {
         const matchLetter = document.querySelectorAll(`.${letter}`);
         matchLetter.forEach(letter => letter.classList.replace('hide','show'));
