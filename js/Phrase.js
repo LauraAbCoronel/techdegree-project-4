@@ -11,6 +11,7 @@ class Phrase {
     addPhraseToDisplay() {
         const phraseDiv = document.querySelector('#phrase');
         const phraseUl = phraseDiv.querySelector('ul');
+        phraseUl.textContent = '';
         const charArr = this.phrase.split("");
         charArr.forEach(char => {
             const li = document.createElement('li');

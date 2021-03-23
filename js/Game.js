@@ -8,7 +8,7 @@ class Game {
         this.phrases = [new Phrase('Hi my name is Laura'),
                         new Phrase('How do you pronounce Worcestershire sauce'),
                         new Phrase('Like Father Like Son'),
-                        new Phrase('Back to the Drawing Board'),
+                        new Phrase('The quick brown fox jumps over the lazy dog'),
                         new Phrase('Do you remember purple ketchup'),
                         new Phrase('Humpty Dumpty sat on a wall')];
         this.activePhrase = null;
@@ -55,16 +55,62 @@ class Game {
         }
     }
 
+    /**
+     * Changes the heart image, add to missed counter and checks if out of lives
+     */
     removeLife() {
         const life = document.querySelectorAll('[src="images/liveHeart.png"]');
+        // changes the last heart image to lost heart
         life[life.length-1].src = "images/lostHeart.png";
         this.missed += 1;
+        //if they have reached 5 guesses they lost the game
         if(this.missed > 4) {
             this.gameOver();
         }
     }
 
-    checkForWin() {}
+    /**
+     * Checks to see if there are any letters with the hidden class
+     * @returns {boolean} - true if no letters are hidden, false if there are still hidden letters
+     */
+    checkForWin() {
+        const phraseDiv = document.querySelector('#phrase');
+        const lettersLeft = phraseDiv.querySelector('.hide');
+        if (lettersLeft) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-    gameOver() {}
+    /**
+     * Depending on if the user lost or won the start screen is displayed and h1 text is updated
+     */
+    gameOver() {
+        const overlay = document.querySelector('#overlay');
+        overlay.className = 'start';
+        overlay.style.display = "";
+        if (this.missed < 5) {
+            document.querySelector('#game-over-message').textContent = `YOU WON!`;
+            overlay.classList.replace('start','win');
+        } else {
+            document.querySelector('#game-over-message').textContent = `YOU LOST.`;
+            overlay.classList.replace('start','lose');
+        }
+        this.restartBoard();
+    }
+
+    restartBoard() {
+        const qwertyButton = document.querySelectorAll(':disabled');
+        qwertyButton.forEach(button => {
+            button.disabled = false;
+            button.className = 'key';
+        });
+
+        const tries = document.querySelectorAll('[src="images/lostHeart.png"]');
+        tries.forEach(img => {
+            img.src = "images/liveHeart.png";
+        });
+        this.missed = 0;
+    }
 }
