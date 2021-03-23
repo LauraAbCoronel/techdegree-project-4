@@ -5,17 +5,26 @@
 class Game {
     constructor() {
         this.missed = 0;
-        this.phrases = [,,,,,];
+        this.phrases = [new Phrase('Hi my name is Laura'),
+                        new Phrase('How do you pronounce Worcestershire sauce'),
+                        new Phrase('Like Father Like Son'),
+                        new Phrase('Back to the Drawing Board'),
+                        new Phrase('Do you remember purple ketchup'),
+                        new Phrase('Humpty Humpty sat on a wall')];
         this.activePhrase = null;
     }
 
     startGame() {
-        //hide screen overlay
+        // hides the startgame overlay
+        document.querySelector('#overlay').style.display = "none";
         this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
     }
 
-    getRandomPhrase() {}
+    getRandomPhrase() {
+        const randomNum = Math.floor(Math.random() * this.phrases.length)
+        return this.phrases[randomNum];
+    }
     
     handleInteraction() {}
 

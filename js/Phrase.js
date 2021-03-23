@@ -25,7 +25,13 @@ class Phrase {
         });
     }
 
-    checkLetter(e) {}
+    // checkLetter(letter) {
+    //     if (condition) {
+            
+    //     } else {
+            
+    //     }
+    // }
 
     showMatchedLetter() {}
 }
