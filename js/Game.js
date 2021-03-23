@@ -26,7 +26,21 @@ class Game {
         return this.phrases[randomNum];
     }
     
-    handleInteraction() {}
+    handleInteraction(e) {
+        const button = e.target;
+        const letter = button.textContent;
+        button.disabled = 'true';
+        if (this.activePhrase.checkLetter(letter)) {
+            button.className = 'chosen';
+            this.activePhrase.showMatchedLetter(letter);
+            if(this.checkForWin()) {
+                this.gameOver();
+            }
+        } else {
+            button.className = 'wrong';
+            this.removeLife();
+        }
+    }
 
     removeLife() {}
 
