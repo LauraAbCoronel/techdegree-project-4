@@ -13,9 +13,14 @@ class Phrase {
      */
     addPhraseToDisplay() {
         const phraseDiv = document.querySelector('#phrase');
-        const phraseUl = phraseDiv.querySelector('ul');
-        // clears the ul element of li. Important when starting a second game
-        phraseUl.textContent = '';
+        // clears the content in the div element for restarting a second game
+        phraseDiv.textContent = '';
+
+        // create a new ul element and append it to the div element
+        let phraseUl = document.createElement('ul');
+        phraseDiv.appendChild(phraseUl);
+
+        
         const charArr = this.phrase.split("");
         charArr.forEach(char => {
             const li = document.createElement('li');
@@ -23,6 +28,13 @@ class Phrase {
                 li.className = `hide letter ${char}`;
                 li.textContent = char;
             } else {
+                /* 
+                    when there is a space, start a new ul element 
+                    so that when the display size is adjusted the entire word would wrap to the next line and not just single letters
+                    this will make it easier to identify how many letters are in a word.
+                */
+                phraseUl = document.createElement('ul');
+                phraseDiv.appendChild(phraseUl);
                 li.className = 'space';
                 li.textContent = char;
             }
