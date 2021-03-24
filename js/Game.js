@@ -110,10 +110,10 @@ class Game {
         overlay.style.display = "";
         // if the gameOver method is called because the user won show you won setup
         if (this.missed < 5) {
-            document.querySelector('#game-over-message').textContent = `YOU WON!`;
+            document.querySelector('#game-over-message').textContent = `YOU WON! The Phrase was: ${this.activePhrase.phrase}`;
             overlay.classList.replace('start','win');
         } else {
-            document.querySelector('#game-over-message').textContent = `YOU LOST.`;
+            document.querySelector('#game-over-message').textContent = `YOU LOST. The Phrase was: ${this.activePhrase.phrase}`;
             overlay.classList.replace('start','lose');
         }
         // calls the restart board method
