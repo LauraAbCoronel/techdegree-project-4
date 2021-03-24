@@ -8,9 +8,13 @@ class Phrase {
         this.phrase = phrase.toLowerCase();
     }
 
+    /**
+     * Splits the phrase into an array of char and creates li element for each letter with their appropriate class name
+     */
     addPhraseToDisplay() {
         const phraseDiv = document.querySelector('#phrase');
         const phraseUl = phraseDiv.querySelector('ul');
+        // clears the ul element of li. Important when starting a second game
         phraseUl.textContent = '';
         const charArr = this.phrase.split("");
         charArr.forEach(char => {

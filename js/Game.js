@@ -38,7 +38,20 @@ class Game {
      * @param {element} e - button element that triggered the event listener
      */
     handleInteraction(e) {
-        const button = e.target;
+        let button;
+        //if the event triggered was click/button then set the button equal to event target
+        if (e.type === 'click') {
+            button = e.target;
+        } else {
+            // if the event triggered was a keydown/input from the key board then we get all the button elements and filter out the letters that dont match the key selected on the keyboard
+            const unusedButtons = document.querySelectorAll('.key');
+            button = [...unusedButtons].filter(button => button.textContent === e.key).pop();
+            if (!button) {
+                // if the user keys a letter that has been used nothing happens
+                return
+            }
+        }
+
         const letter = button.textContent;
         // disables the button so the user can no longer click the button
         button.disabled = 'true';
@@ -77,6 +90,7 @@ class Game {
         const phraseDiv = document.querySelector('#phrase');
         const lettersLeft = phraseDiv.querySelector('.hide');
         if (lettersLeft) {
+            // if there are any letters left return false
             return false;
         } else {
             return true;
@@ -88,8 +102,13 @@ class Game {
      */
     gameOver() {
         const overlay = document.querySelector('#overlay');
+        /* 
+            set the class of the start screen back to start
+            This is important when playing a second game
+        */
         overlay.className = 'start';
         overlay.style.display = "";
+        // if the gameOver method is called because the user won show you won setup
         if (this.missed < 5) {
             document.querySelector('#game-over-message').textContent = `YOU WON!`;
             overlay.classList.replace('start','win');
@@ -97,9 +116,13 @@ class Game {
             document.querySelector('#game-over-message').textContent = `YOU LOST.`;
             overlay.classList.replace('start','lose');
         }
+        // calls the restart board method
         this.restartBoard();
     }
 
+    /**
+     * Resets the qwerty buttons to original class and changes all hearts back to live hearts
+     */
     restartBoard() {
         const qwertyButton = document.querySelectorAll(':disabled');
         qwertyButton.forEach(button => {
