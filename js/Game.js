@@ -12,6 +12,8 @@ class Game {
                         new Phrase('Do you remember purple ketchup'),
                         new Phrase('Humpty Dumpty sat on a wall')];
         this.activePhrase = null;
+        // added this property so the keydown eventlistener wont trigger when gameover screen is shown
+        this.active = false;
     }
 
     /**
@@ -22,6 +24,8 @@ class Game {
         document.querySelector('#overlay').style.display = "none";
         this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
+        // sets the board active so it will handle interaction
+        this.active = true;
     }
 
     /**
@@ -38,33 +42,36 @@ class Game {
      * @param {element} e - button element that triggered the event listener
      */
     handleInteraction(e) {
-        let button;
-        //if the event triggered was click/button then set the button equal to event target
-        if (e.type === 'click') {
-            button = e.target;
-        } else {
-            // if the event triggered was a keydown/input from the key board then we get all the button elements and filter out the letters that dont match the key selected on the keyboard
-            const unusedButtons = document.querySelectorAll('.key');
-            button = [...unusedButtons].filter(button => button.textContent === e.key).pop();
-            if (!button) {
-                // if the user keys a letter that has been used nothing happens
-                return
+        // will only handle interaction when the game is active
+        if (this.active) {
+            let button;
+            //if the event triggered was click/button then set the button equal to event target
+            if (e.type === 'click') {
+                button = e.target;
+            } else {
+                // if the event triggered was a keydown/input from the key board then we get all the button elements and filter out the letters that dont match the key selected on the keyboard
+                const unusedButtons = document.querySelectorAll('.key');
+                button = [...unusedButtons].filter(button => button.textContent === e.key).pop();
+                if (!button) {
+                    // if the user keys a letter that has been used nothing happens
+                    return
+                }
             }
-        }
-
-        const letter = button.textContent;
-        // disables the button so the user can no longer click the button
-        button.disabled = 'true';
-        if (this.activePhrase.checkLetter(letter)) {
-            button.className = 'chosen';
-            // the matched letter will appear on the webpage
-            this.activePhrase.showMatchedLetter(letter);
-            if(this.checkForWin()) {
-                this.gameOver();
+    
+            const letter = button.textContent;
+            // disables the button so the user can no longer click the button
+            button.disabled = 'true';
+            if (this.activePhrase.checkLetter(letter)) {
+                button.className = 'chosen';
+                // the matched letter will appear on the webpage
+                this.activePhrase.showMatchedLetter(letter);
+                if(this.checkForWin()) {
+                    this.gameOver();
+                }
+            } else {
+                button.className = 'wrong';
+                this.removeLife();
             }
-        } else {
-            button.className = 'wrong';
-            this.removeLife();
         }
     }
 
@@ -101,6 +108,8 @@ class Game {
      * Depending on if the user lost or won the start screen is displayed and h1 text is updated
      */
     gameOver() {
+        // makes the game unactive so users cant trigger the keyup event listener
+        this.active = false;
         const overlay = document.querySelector('#overlay');
         /* 
             set the class of the start screen back to start
